@@ -1,0 +1,652 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Menu, X, ChevronRight, Brain, BarChart3, GraduationCap, 
+  Settings, BookOpen, FileText, Mail, Linkedin, ArrowRight,
+  ShieldCheck, Zap, Users, Quote, Phone
+} from 'lucide-react';
+
+const App = () => {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  const navigate = (page) => {
+    setCurrentPage(page);
+    setIsMenuOpen(false);
+  };
+
+  const navLinks = [
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About' },
+    { id: 'services', label: 'Services' },
+    { id: 'ai', label: 'AI in Assessment' },
+    { id: 'scholarship', label: 'Scholarship' },
+    { id: 'insights', label: 'Insights' },
+    { id: 'contact', label: 'Contact' },
+  ];
+
+  // --- COMPONENTS ---
+
+  const Logo = () => (
+    <div className="flex items-center gap-3">
+      {/* SVG recreation of the Brain/Growth Logo Concept */}
+      <div className="relative w-10 h-10 shrink-0">
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          {/* Outer Brain Shape */}
+          <path d="M50,15 C30,15 15,30 15,50 C15,70 30,85 50,85 C70,85 85,70 85,50 C85,30 70,15 50,15 Z" fill="#0B1E33" />
+          {/* Circuit/Logic lines on left */}
+          <path d="M30,50 L45,50 M35,40 L45,40 M32,60 L45,60" stroke="#0077C8" strokeWidth="3" strokeLinecap="round" />
+          {/* Rising Bar Chart/Arrow on right */}
+          <rect x="55" y="55" width="6" height="15" fill="white" />
+          <rect x="65" y="45" width="6" height="25" fill="white" />
+          <rect x="75" y="35" width="6" height="35" fill="white" />
+          <path d="M55,60 L85,25" stroke="#F39C12" strokeWidth="4" fill="none" />
+        </svg>
+      </div>
+      <div className="flex flex-col">
+        <span className="text-xl font-black tracking-tighter text-[#0B1E33] leading-none uppercase">Maksimize</span>
+        <span className="text-[10px] font-bold tracking-[0.2em] text-[#0077C8] uppercase">Learning</span>
+      </div>
+    </div>
+  );
+
+  const Navbar = () => (
+    <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-20">
+          <div className="flex items-center cursor-pointer" onClick={() => navigate('home')}>
+            <Logo />
+          </div>
+          
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center space-x-6">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => navigate(link.id)}
+                className={`text-[11px] font-bold transition-colors uppercase tracking-widest ${
+                  currentPage === link.id ? 'text-[#0077C8]' : 'text-slate-600 hover:text-[#0077C8]'
+                }`}
+              >
+                {link.label}
+              </button>
+            ))}
+            <button 
+              onClick={() => navigate('contact')}
+              className="bg-[#F39C12] hover:bg-[#D68910] text-white px-5 py-2 rounded font-black text-xs tracking-widest transition-all"
+            >
+              BOOK CONSULTATION
+            </button>
+          </div>
+
+          {/* Mobile Toggle */}
+          <div className="md:hidden flex items-center">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-slate-600">
+              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white border-b border-slate-200 animate-in fade-in slide-in-from-top-4">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => navigate(link.id)}
+                className="block w-full text-left px-3 py-4 text-base font-bold text-slate-700 hover:bg-slate-50 uppercase tracking-widest"
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+
+  const Footer = () => (
+    <footer className="bg-[#0B1E33] text-white py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="col-span-1 md:col-span-2">
+            <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Maksimize Learning</h3>
+            <p className="text-slate-400 max-w-md mb-6">
+              Elevate. Innovate. Achieve. Partnering with educational systems to build coherent, 
+              valid, and instructionally powerful assessment frameworks.
+            </p>
+            <div className="flex space-x-4">
+              <a href="https://www.linkedin.com/in/michael-maksimchuk-ed-d-a1112412/" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 rounded-full hover:bg-[#0077C8] transition-colors">
+                <Linkedin size={20} />
+              </a>
+              <a href="mailto:mike@maksimch.uk" className="p-2 bg-slate-800 rounded-full hover:bg-[#0077C8] transition-colors">
+                <Mail size={20} />
+              </a>
+            </div>
+          </div>
+          <div>
+            <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#0077C8]">Navigation</h4>
+            <ul className="space-y-4 text-slate-400">
+              <li><button onClick={() => navigate('about')} className="hover:text-white">About Dr. Maksimchuk</button></li>
+              <li><button onClick={() => navigate('services')} className="hover:text-white">Our Services</button></li>
+              <li><button onClick={() => navigate('ai')} className="hover:text-white">AI in Assessment</button></li>
+              <li><button onClick={() => navigate('contact')} className="hover:text-white">Book Consultation</button></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#0077C8]">Contact</h4>
+            <div className="text-slate-400 text-sm space-y-2">
+              <p>Based in Michigan.</p>
+              <p className="block pt-2 font-semibold text-white tracking-tight">mike@maksimch.uk</p>
+              <p className="block font-semibold text-white tracking-tight">231.225.5060</p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-16 pt-8 border-t border-slate-800 text-slate-500 text-xs text-center">
+          © {new Date().getFullYear()} Maksimize Learning. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  );
+
+  // --- PAGES ---
+
+  const Home = () => (
+    <div className="animate-in fade-in duration-700">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 lg:pt-56 lg:pb-40 overflow-hidden bg-[#0B1E33] text-white">
+        <div className="absolute top-0 right-0 w-2/3 h-full opacity-5 pointer-events-none hidden lg:block">
+           <svg viewBox="0 0 400 400" className="w-full h-full text-white">
+             <path fill="currentColor" d="M100,100 L400,0 L400,400 L0,400 Z" />
+           </svg>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-4xl">
+            <h1 className="text-6xl lg:text-8xl font-black leading-[0.85] uppercase tracking-tighter mb-8">
+              Elevate. <br />
+              Innovate. <br />
+              <span className="text-[#0077C8]">Achieve.</span>
+            </h1>
+            <p className="text-xl lg:text-3xl text-slate-300 font-light mb-10 leading-relaxed max-w-2xl">
+              Assessment systems that are <span className="text-white font-bold">coherent</span>, 
+              <span className="text-white font-bold"> valid</span>, and 
+              <span className="text-white font-bold"> instructionally powerful</span>.
+            </p>
+            
+            <div className="flex flex-wrap gap-4 mb-14">
+              <span className="px-5 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-bold uppercase tracking-widest text-[#0077C8]">AI in Assessment</span>
+              <span className="px-5 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-bold uppercase tracking-widest text-[#0077C8]">Grading Reform</span>
+              <span className="px-5 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-bold uppercase tracking-widest text-[#0077C8]">Psychometric Integrity</span>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button onClick={() => navigate('contact')} className="bg-[#F39C12] text-white px-10 py-5 rounded-lg font-black uppercase tracking-widest text-lg hover:bg-[#D68910] hover:scale-105 transition-all shadow-2xl flex items-center justify-center">
+                Book a Consultation <ChevronRight className="ml-2" />
+              </button>
+              <button onClick={() => navigate('services')} className="bg-transparent border-2 border-white/30 text-white px-10 py-5 rounded-lg font-black uppercase tracking-widest text-lg hover:bg-white/10 transition-all">
+                Explore Services
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Assessment Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl font-black text-[#0B1E33] uppercase tracking-tight mb-8">
+                Assessment That Moves Systems Forward
+              </h2>
+              <p className="text-lg text-slate-700 leading-relaxed mb-6">
+                Maksimize Learning partners with school districts, intermediate agencies, and state-level organizations to design assessment systems that genuinely support learning.
+              </p>
+              <p className="text-lg text-slate-700 leading-relaxed mb-8">
+                With more than 15 years of classroom experience, doctoral training, and active leadership, Dr. Michael Maksimchuk works at the intersection of practice, policy, and research.
+              </p>
+              <div className="space-y-4">
+                {['Classroom practice', 'Research and psychometrics', 'Policy and system design', 'Artificial intelligence'].map((item, idx) => (
+                  <div key={idx} className="flex items-center text-slate-800 font-bold uppercase tracking-wider text-sm">
+                    <div className="w-2 h-2 bg-[#0077C8] rounded-full mr-3" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-[#0B1E33] p-12 rounded-3xl text-white relative overflow-hidden shadow-2xl">
+               <div className="relative z-10">
+                <Quote className="text-[#0077C8] mb-6 opacity-50" size={48} />
+                <p className="text-2xl font-light italic leading-relaxed">
+                  "The work is practical. Grounded. Strategic. And focused on long-term coherence rather than short-term compliance."
+                </p>
+                <div className="mt-8">
+                  <p className="font-black uppercase tracking-widest text-[#0077C8]">Dr. Michael Maksimchuk</p>
+                  <p className="text-slate-400 text-sm">Founder, Maksimize Learning</p>
+                </div>
+               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Signature Domains */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-black text-[#0B1E33] uppercase tracking-tight">Signature Domains</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: 'AI in Assessment', icon: <Brain />, desc: 'Thoughtful, ethical integration of generative AI grounded in validity and equity.' },
+              { title: 'Grading Reform', icon: <GraduationCap />, desc: 'Systems that reflect learning, not behavior. Building clarity and collective efficacy.' },
+              { title: 'Psychometrics', icon: <BarChart3 />, desc: 'Blueprinting, item analysis, and alignment audits that strengthen reliability.' },
+              { title: 'Implementation', icon: <Settings />, desc: 'Facilitating sustainable change through coherent policy and professional learning.' }
+            ].map((domain, idx) => (
+              <div key={idx} className="bg-white p-8 rounded-2xl border border-slate-200 hover:shadow-xl transition-shadow">
+                <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-[#0077C8] mb-6">
+                  {domain.icon}
+                </div>
+                <h3 className="text-xl font-black text-[#0B1E33] uppercase mb-4">{domain.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{domain.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership & CTA */}
+      <section className="py-24 bg-[#0B1E33] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-black uppercase mb-12">Professional Engagement & Leadership</h2>
+          <div className="flex flex-wrap justify-center gap-8 mb-20 opacity-80">
+            {['Michigan Statewide AI Taskforce', 'Michigan School Testing Conference', 'NCME', 'Michigan Assessment Consortium', 'Kent ISD'].map((org, idx) => (
+              <span key={idx} className="text-xl font-bold border-b-2 border-[#0077C8] pb-1">{org}</span>
+            ))}
+          </div>
+          <div className="max-w-3xl mx-auto bg-white/5 p-12 rounded-3xl border border-white/10">
+            <h3 className="text-4xl font-black mb-6">Let’s Build What Your System Actually Needs</h3>
+            <p className="text-xl text-slate-300 mb-10">Assessment systems shape instruction, culture, and trust.</p>
+            <button onClick={() => navigate('contact')} className="bg-[#F39C12] hover:bg-[#D68910] text-white px-10 py-5 rounded-full font-bold text-xl transition-all shadow-xl">
+              Schedule a Consultation
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+
+  const About = () => (
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 pt-32 pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <div className="lg:col-span-8">
+            <h1 className="text-5xl font-black text-[#0B1E33] uppercase mb-8">Professional Biography</h1>
+            <div className="space-y-6 text-lg text-slate-700 leading-relaxed">
+              <p className="font-bold text-[#0077C8] text-2xl">
+                Dr. Michael T. Maksimchuk is an assessment consultant, learning facilitator, and scholar-practitioner dedicated to improving the coherence and quality of K–12 assessment systems.
+              </p>
+              <div className="bg-slate-50 p-8 rounded-2xl border-l-4 border-[#0077C8] my-10">
+                <ul className="space-y-4 font-semibold text-[#0B1E33]">
+                  <li className="flex items-center"><ArrowRight className="mr-3 text-[#0077C8]" /> 15+ years as a secondary science and engineering educator</li>
+                  <li className="flex items-center"><ArrowRight className="mr-3 text-[#0077C8]" /> PK–12 certified administrator</li>
+                  <li className="flex items-center"><ArrowRight className="mr-3 text-[#0077C8]" /> Doctor of Education in Curriculum & Instruction (STEM Leadership)</li>
+                  <li className="flex items-center"><ArrowRight className="mr-3 text-[#0077C8]" /> Active engagement in national assessment leadership</li>
+                </ul>
+              </div>
+              <p>
+                His work bridges classroom practice and system-level design. Having lived the daily realities of instruction, grading, and student assessment, he understands the practical tensions teachers face.
+              </p>
+              
+              <div className="pt-16">
+                <h2 className="text-4xl font-black text-[#0B1E33] uppercase mb-6 italic">Assessment as Assidere</h2>
+                <p className="text-2xl font-light text-slate-600 mb-8">
+                  The word assessment traces its roots to the Latin <span className="text-[#0077C8] font-bold">assidere</span>—to sit beside.
+                </p>
+                <p>
+                  At its core, assessment is not surveillance. It is proximity. To assess is to sit beside a learner and examine what they understand, where misconceptions remain, and what next steps will accelerate learning.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                  {['Assessment should inform.', 'Assessment should guide.', 'Assessment should elevate.'].map((text, idx) => (
+                    <div key={idx} className="p-6 border-t-2 border-[#F39C12] bg-slate-50 font-black uppercase tracking-tight text-[#0B1E33]">
+                      {text}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="lg:col-span-4">
+             <div className="sticky top-32 space-y-8">
+               <div className="bg-[#0B1E33] p-8 rounded-2xl text-white">
+                 <h3 className="font-bold uppercase tracking-widest text-sm text-[#0077C8] mb-6">Personal Snapshot</h3>
+                 <p className="text-slate-300 text-sm leading-relaxed mb-6">
+                   Raised in Northern Michigan and shaped by both rural and urban educational settings, Dr. Maksimchuk values community, discipline, and service.
+                 </p>
+                 <p className="text-slate-300 text-sm leading-relaxed">
+                   Active in music performance, sailing, and alpine skiing, these experiences reinforce a belief that leadership is rooted in service.
+                 </p>
+               </div>
+               <div className="p-8 border-2 border-slate-100 rounded-2xl">
+                 <h3 className="font-black uppercase text-[#0B1E33] mb-6">Affiliations</h3>
+                 <ul className="space-y-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                   <li>NCME</li>
+                   <li>NAAD</li>
+                   <li>AERA</li>
+                   <li>Michigan Assessment Consortium</li>
+                   <li>MAC / MERA / MALFA</li>
+                 </ul>
+               </div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const Services = () => (
+    <div className="animate-in fade-in duration-700 pt-32 pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <header className="mb-20">
+          <h1 className="text-5xl font-black text-[#0B1E33] uppercase mb-6">Consulting Services</h1>
+          <p className="text-xl text-slate-600 max-w-3xl">
+            Engagements are customized to district and organizational needs, ranging from targeted professional learning to multi-year system partnerships.
+          </p>
+          <div className="mt-8 flex gap-6 text-sm font-bold uppercase text-[#0077C8]">
+            <span>In-person facilitation preferred</span>
+            <span>•</span>
+            <span>Virtual consultation available</span>
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {[
+            {
+              title: "Professional Learning",
+              icon: <BookOpen />,
+              items: ["AI in Educational Assessment", "Blueprinting & Alignment", "Item Analysis", "Grading Reform", "Formative Assessment Processes"]
+            },
+            {
+              title: "Assessment Audits",
+              icon: <BarChart3 />,
+              items: ["Construct & Alignment Analysis", "Item Quality & Bias Review", "Reporting Structure Evaluation", "Validity Threat Analysis", "Coherence Mapping"]
+            },
+            {
+              title: "Strategic Facilitation",
+              icon: <Users />,
+              items: ["Balanced Assessment Design", "AI Policy Integration", "Capacity Building", "Reform Implementation Fidelity"]
+            },
+            {
+              title: "Long-Term Advisory",
+              icon: <ShieldCheck />,
+              items: ["Leadership Coaching", "Policy Alignment", "Multi-year Grading Transitions", "AI Integration Strategy"]
+            }
+          ].map((service, idx) => (
+            <div key={idx} className="bg-white p-10 rounded-3xl border-2 border-slate-50 shadow-sm hover:border-[#0077C8] transition-all">
+              <div className="text-[#0077C8] mb-6">{service.icon}</div>
+              <h3 className="text-2xl font-black text-[#0B1E33] uppercase mb-6">{service.title}</h3>
+              <ul className="space-y-3">
+                {service.items.map((item, i) => (
+                  <li key={i} className="flex items-start text-slate-600">
+                    <ChevronRight size={18} className="text-[#F39C12] mt-1 mr-2 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <section className="mt-24 bg-[#0B1E33] p-12 rounded-3xl text-center">
+           <h2 className="text-3xl font-black text-white uppercase mb-8">Keynotes & Conferences</h2>
+           <p className="text-slate-300 max-w-2xl mx-auto mb-12">
+             Engaging presentations for state and national audiences focusing on AI ethics, 
+             moving from compliance to coherence, and assessment literacy.
+           </p>
+           <button onClick={() => navigate('contact')} className="bg-[#0077C8] text-white px-8 py-4 rounded-lg font-bold uppercase tracking-widest hover:bg-blue-600 transition-all">
+             Request a Speaker Proposal
+           </button>
+        </section>
+      </div>
+    </div>
+  );
+
+  const AISection = () => (
+    <div className="animate-in fade-in duration-700 pt-32 pb-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-5xl font-black text-[#0B1E33] uppercase mb-10">AI in Assessment</h1>
+        <div className="prose prose-lg max-w-none text-slate-700 leading-relaxed">
+          <p className="text-2xl font-light mb-12">
+            Artificial intelligence is reshaping the assessment landscape. The question is not whether AI will influence assessment—it already has. <span className="font-bold text-[#0B1E33]">The question is how.</span>
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+            <div className="bg-green-50 p-8 rounded-2xl border-t-4 border-green-500">
+              <h3 className="text-green-800 font-black uppercase mb-6">Productive Uses</h3>
+              <ul className="space-y-3 text-sm font-semibold">
+                <li>Drafting aligned assessment items</li>
+                <li>Generating differentiated feedback</li>
+                <li>Supporting formative assessment cycles</li>
+                <li>Blueprint development assistance</li>
+              </ul>
+            </div>
+            <div className="bg-red-50 p-8 rounded-2xl border-t-4 border-red-500">
+              <h3 className="text-red-800 font-black uppercase mb-6">Risks & Guardrails</h3>
+              <ul className="space-y-3 text-sm font-semibold">
+                <li>Bias amplification</li>
+                <li>Construct distortion</li>
+                <li>Over-automation</li>
+                <li>Data privacy concerns</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 className="text-3xl font-black text-[#0B1E33] uppercase mt-16 mb-8">A Strategic Lens</h2>
+          <p className="mb-8">
+            Maksimize Learning approaches AI through a lens of validity, equity, construct clarity, and instructional purpose. 
+            AI must operate within clearly defined instructional goals and psychometric boundaries.
+          </p>
+          <div className="bg-[#0B1E33] text-white p-8 rounded-2xl font-bold uppercase tracking-widest text-center">
+            AI is a tool—not a replacement for professional judgment.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const Scholarship = () => (
+    <div className="animate-in fade-in duration-700 pt-32 pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-5xl font-black text-[#0B1E33] uppercase mb-12">Publications & Scholarship</h1>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 space-y-12">
+            <section>
+              <h2 className="text-sm font-black text-[#0077C8] uppercase tracking-widest mb-6">Books & Book Chapters</h2>
+              <div className="space-y-8">
+                {[
+                  { title: "Supporting Equitable Assessment of English Language Learners", pub: "Routledge, Taylor & Francis Group (2026)", desc: "Explores equitable assessment design grounded in fairness and instructional responsiveness." },
+                  { title: "Empowering Educators of Newcomers", pub: "TESOL Press (Anticipated 2026)", desc: "Comprehensive guide to instruction for newly arrived multilingual students." },
+                  { title: "Inclusive Instruction and Assessment in TESOL", pub: "Routledge (Anticipated 2028)", desc: "Research-based strategies for inclusive assessment in diverse settings." }
+                ].map((book, i) => (
+                  <div key={i} className="border-b border-slate-200 pb-8">
+                    <h3 className="text-xl font-bold text-[#0B1E33] mb-2">{book.title}</h3>
+                    <p className="text-[#0077C8] font-bold text-sm mb-3 uppercase tracking-wider">{book.pub}</p>
+                    <p className="text-slate-600">{book.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-sm font-black text-[#0077C8] uppercase tracking-widest mb-6">Peer-Reviewed</h2>
+              <div className="bg-slate-50 p-8 rounded-2xl">
+                 <h3 className="font-bold text-[#0B1E33]">Generative AI in the K–12 Formative Assessment Process</h3>
+                 <p className="text-sm text-slate-500 mt-2">Artificial Intelligence in Measurement & Education Conference (AIME-Con)</p>
+                 <hr className="my-6 border-slate-200" />
+                 <h3 className="font-bold text-[#0B1E33]">Doctoral Dissertation (2023)</h3>
+                 <p className="text-sm text-slate-500 mt-2">A Descriptive Case Study Investigating the Experience of Michigan High School Science Teachers Implementing the NGSS.</p>
+              </div>
+            </section>
+          </div>
+
+          <div className="space-y-8">
+             <div className="bg-white border-2 border-slate-100 p-8 rounded-2xl">
+                <h3 className="font-black text-[#0B1E33] uppercase mb-6">White Papers</h3>
+                <p className="font-bold text-[#0077C8] text-sm">What is the Difference Between Performance Assessment and Project-Based Learning?</p>
+                <p className="text-xs text-slate-500 mt-2 uppercase">Michigan Assessment Consortium</p>
+             </div>
+             <button className="w-full flex items-center justify-between bg-slate-100 p-6 rounded-2xl font-black text-[#0B1E33] uppercase tracking-tighter hover:bg-slate-200 transition-colors">
+               <span>Download Full CV</span>
+               <FileText />
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const Insights = () => (
+    <div className="animate-in fade-in duration-700 pt-32 pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-5xl font-black text-[#0B1E33] uppercase mb-16 text-center">Insights & Resources</h1>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+          {['Assessment Literacy', 'AI Integration', 'Grading Reform', 'Implementation Science', 'Multilingual Equity'].map((topic, i) => (
+            <div key={i} className="group cursor-pointer">
+              <div className="aspect-video bg-slate-100 rounded-2xl mb-6 overflow-hidden flex items-center justify-center text-slate-300 group-hover:bg-[#0077C8]/10 transition-colors">
+                <Brain size={48} className="group-hover:scale-110 transition-transform" />
+              </div>
+              <h3 className="text-xl font-black text-[#0B1E33] uppercase mb-2 group-hover:text-[#0077C8]">{topic}</h3>
+              <p className="text-slate-500 text-sm">Short-form reflections and research-based analysis coming soon.</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-slate-50 p-12 rounded-3xl">
+          <h2 className="text-2xl font-black text-[#0B1E33] uppercase mb-10 text-center">Recommended Organizations</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+              <h4 className="font-bold text-[#0077C8] mb-6 uppercase tracking-widest text-sm">Assessment & Measurement</h4>
+              <ul className="space-y-4">
+                <li className="font-black text-[#0B1E33]">National Council on Measurement in Education</li>
+                <li className="font-black text-[#0B1E33]">American Educational Research Association</li>
+                <li className="font-black text-[#0B1E33]">Michigan Assessment Consortium</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-[#0077C8] mb-6 uppercase tracking-widest text-sm">Implementation Science</h4>
+              <ul className="space-y-4">
+                <li className="font-black text-[#0B1E33]">National Implementation Research Network</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const Contact = () => (
+    <div className="animate-in fade-in duration-700 pt-32 pb-24 bg-slate-50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div>
+            <h1 className="text-6xl font-black text-[#0B1E33] uppercase leading-none mb-8">
+              Let's Start the <br />
+              <span className="text-[#0077C8]">Conversation.</span>
+            </h1>
+            <p className="text-xl text-slate-600 mb-12">
+              Assessment reform requires clarity and conversation. Schedule a call to discuss your system’s goals and challenges.
+            </p>
+            <div className="space-y-8">
+              <a href="https://www.linkedin.com/in/michael-maksimchuk-ed-d-a1112412/" target="_blank" rel="noopener noreferrer" className="flex items-center group">
+                <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-[#0077C8] mr-4 group-hover:bg-[#0077C8] group-hover:text-white transition-colors">
+                  <Linkedin size={24} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-400 uppercase">LinkedIn</p>
+                  <p className="font-bold text-[#0B1E33]">Michael Maksimchuk, Ed.D.</p>
+                </div>
+              </a>
+              <a href="mailto:mike@maksimch.uk" className="flex items-center group">
+                <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-[#0077C8] mr-4 group-hover:bg-[#0077C8] group-hover:text-white transition-colors">
+                  <Mail size={24} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-400 uppercase">Email</p>
+                  <p className="font-bold text-[#0B1E33]">mike@maksimch.uk</p>
+                </div>
+              </a>
+              <div className="flex items-center group">
+                <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-[#0077C8] mr-4">
+                  <Phone size={24} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-400 uppercase">Phone</p>
+                  <p className="font-bold text-[#0B1E33]">231.225.5060</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-10 rounded-3xl shadow-xl border border-slate-100">
+             <h2 className="text-2xl font-black text-[#0B1E33] uppercase mb-8">Book a Consultation</h2>
+             <form className="space-y-6">
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-black uppercase text-slate-400 mb-2">First Name</label>
+                    <input type="text" className="w-full bg-slate-50 border-none rounded-lg p-4 focus:ring-2 focus:ring-[#0077C8]" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-black uppercase text-slate-400 mb-2">Last Name</label>
+                    <input type="text" className="w-full bg-slate-50 border-none rounded-lg p-4 focus:ring-2 focus:ring-[#0077C8]" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-black uppercase text-slate-400 mb-2">Work Email</label>
+                  <input type="email" className="w-full bg-slate-50 border-none rounded-lg p-4 focus:ring-2 focus:ring-[#0077C8]" />
+                </div>
+                <div>
+                  <label className="block text-xs font-black uppercase text-slate-400 mb-2">Organization / District</label>
+                  <input type="text" className="w-full bg-slate-50 border-none rounded-lg p-4 focus:ring-2 focus:ring-[#0077C8]" />
+                </div>
+                <div>
+                  <label className="block text-xs font-black uppercase text-slate-400 mb-2">What can we help with?</label>
+                  <textarea className="w-full bg-slate-50 border-none rounded-lg p-4 h-32 focus:ring-2 focus:ring-[#0077C8]"></textarea>
+                </div>
+                <button type="button" className="w-full bg-[#F39C12] text-white font-black uppercase tracking-widest py-5 rounded-lg hover:shadow-lg transition-all">
+                  Schedule Consultation
+                </button>
+             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-white font-sans text-slate-900">
+      <Navbar />
+      <main>
+        {currentPage === 'home' && <Home />}
+        {currentPage === 'about' && <About />}
+        {currentPage === 'services' && <Services />}
+        {currentPage === 'ai' && <AISection />}
+        {currentPage === 'scholarship' && <Scholarship />}
+        {currentPage === 'insights' && <Insights />}
+        {currentPage === 'contact' && <Contact />}
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default App;
